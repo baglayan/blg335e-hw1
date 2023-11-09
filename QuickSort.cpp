@@ -4,6 +4,9 @@
 // Id  : 150190056
 // Date: 2023-11-08
 
+/// TODO: Implement time counting and verbose logging
+
+#include <chrono>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -36,6 +39,9 @@ struct City
     int population;
 };
 
+ofstream logFile("log.txt", ofstream::out);
+bool verbose;
+
 #pragma region Function declarations
 void insertionSort(vector<City> &array, int n);
 int findMedian(int i, int j, int k);
@@ -45,6 +51,8 @@ int partition(vector<City> &array, int low, int high);
 void quickSort(vector<City> &array, int low, int high, int strategy);
 void hybridSort(vector<City> &array, int low, int high, int threshold, int strategy);
 
+void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose);
+void displayTimeElapsed(char strategy, int threshold, auto time);
 void displayWrongUsageMessage(int argc, char **argv);
 void displayWrongFileExtensionMessage();
 void displayWrongStrategyMessage();
@@ -123,7 +131,7 @@ int main(int argc, char **argv)
     const string datasetName = argv[DATASET];
     const int threshold = atoi(argv[THRESHOLD]);
     const string outputName = argv[OUTPUT];
-    const bool verbose = argc == 6 && (argv[VERBOSE][0] == 'v' || argv[VERBOSE][0] == 'V') ? true : false;
+    verbose = argc == 6 && (argv[VERBOSE][0] == 'v' || argv[VERBOSE][0] == 'V') ? true : false;
 
     ifstream datasetFile(datasetName);
 
@@ -146,7 +154,6 @@ int main(int argc, char **argv)
         getline(iss, city.name, ';');
         iss >> city.population;
         cities.push_back(city);
-
     }
 
     string line;
@@ -160,6 +167,8 @@ int main(int argc, char **argv)
     }
 
     datasetFile.close();
+    
+    auto start = chrono::high_resolution_clock::now();
 
     switch (threshold)
     {
@@ -170,6 +179,13 @@ int main(int argc, char **argv)
         hybridSort(cities, 0, cities.size() - 1, threshold, strategy);
         break;
     }
+
+    auto end = chrono::high_resolution_clock::now();
+    auto timeElapsed = chrono::duration_cast<chrono::nanoseconds>(end - start);
+
+    displayTimeElapsed(argv[STRATEGY][0], threshold, timeElapsed.count());
+
+    logFile.close();
 
     ofstream outputFile(outputName, ofstream::out);
 
@@ -218,6 +234,7 @@ int partition(vector<City> &array, int low, int high)
         }
     }
     swap(array[high], array[i + 1]);
+    verboseLog(array, high, pivot.population, logFile, verbose);
     return i + 1;
 }
 
@@ -358,6 +375,34 @@ void displayWrongUsageMessage(int argc, char **argv)
     return;
 }
 
+void displayTimeElapsed(char strategy, int threshold, auto time)
+{
+    cout << "Time taken by QuickSort with pivot strategy '" << strategy << "' and threshold " << threshold << ": "
+         << time << " ns." << endl;
+}
+
+void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose)
+{
+    if (verbose)
+    {
+        logFile << "Pivot: " << pivot << " Array: ";
+        logFile << "[";
+        for (int i = 1; i <= length; i++)
+        {
+            logFile << array[i].population;
+            if (i < length)
+            {
+                logFile << ", ";
+            }
+            else
+            {
+                logFile << "]" << endl;
+            }
+        }
+    }
+}
+
+// cla: command line argument
 void claHelp()
 {
     cout << "Usage: ./QuickSort <DATASET-FILE-NAME>.csv <l|r|m> <THRESHOLD VALUE> <OUTPUT-FILE-NAME>.csv [v]" << endl;
