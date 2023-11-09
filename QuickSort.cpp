@@ -2,9 +2,7 @@
 //
 // Name: Meriç Bağlayan
 // Id  : 150190056
-// Date: 2023-11-08
-
-/// TODO: Implement time counting and verbose logging
+// Date: 2023-11-09
 
 #include <chrono>
 #include <iostream>
@@ -43,6 +41,7 @@ ofstream logFile("log.txt", ofstream::out);
 bool verbose;
 
 #pragma region Function declarations
+void swapElements(City& c1, City& c2);
 void insertionSort(vector<City> &array, int n);
 int findMedian(int i, int j, int k);
 int randomizedPartition(vector<City> &array, int low, int high);
@@ -62,20 +61,6 @@ void claVersion();
 
 int main(int argc, char **argv)
 {
-    // for (int i = 0; i < argc; i++) {
-    //     cout << argv[i] << endl;
-    //     cout << strcmp(argv[i], "--help") << endl;
-    // }
-
-    // vector<City> testQS = {5, 1, 24, 23, 90, 55};
-
-    // hybridSort(testQS, 0, 5, 9, MEDIAN);
-
-    // for (int i = 0; i < 6; i++)
-    // {
-    //     cout << testQS[i] << endl;
-    // }
-
     int strategy;
 
     if (argc == 2 && strcmp(argv[1], "--help") == 0)
@@ -206,6 +191,12 @@ int main(int argc, char **argv)
 }
 
 #pragma region Sorting functions
+void swapElements(City& c1, City& c2)
+{
+    City temp = c1;
+    c1 = c2;
+    c2 = temp;
+}
 void insertionSort(vector<City> &array, int n)
 {
     for (int i = 1; i < n; i++)
@@ -230,10 +221,10 @@ int partition(vector<City> &array, int low, int high)
         if (array[j].population < pivot.population)
         {
             i++;
-            swap(array[i], array[j]);
+            swapElements(array[i], array[j]);
         }
     }
-    swap(array[high], array[i + 1]);
+    swapElements(array[high], array[i + 1]);
     verboseLog(array, high, pivot.population, logFile, verbose);
     return i + 1;
 }
@@ -242,7 +233,7 @@ int randomizedPartition(vector<City> &array, int low, int high)
 {
     srand(time(0));
     int pivot = (rand() % (high - low + 1)) + low;
-    swap(array[high], array[pivot]);
+    swapElements(array[high], array[pivot]);
     return partition(array, low, high);
 }
 
@@ -252,7 +243,7 @@ int medianPartition(vector<City> &array, int low, int high)
     int i = (rand() % (high - low + 1)) + low;
     int j = (rand() % (high - low + 1)) + low;
     int k = (rand() % (high - low + 1)) + low;
-    swap(array[high], array[findMedian(i, j, k)]);
+    swapElements(array[high], array[findMedian(i, j, k)]);
     return partition(array, low, high);
 }
 
@@ -411,7 +402,7 @@ void claHelp()
 
 void claVersion()
 {
-    cout << "BLG 335E Analysis of Algorithms I Project 1 in development" << endl;
+    cout << "BLG 335E Analysis of Algorithms I Project 1 submitted version" << endl;
     return;
 }
 #pragma endregion
