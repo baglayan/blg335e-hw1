@@ -41,24 +41,151 @@ ofstream logFile("log.txt", ofstream::out);
 bool verbose;
 
 #pragma region Function declarations
-void swapElements(City& c1, City& c2);
+/**
+ * Function to swap two elements of type City in a vector<City>.
+ * City &c1: First element to swap.
+ * City &c2: Second element to swap.
+ * Returns: None.
+*/
+void swapElements(City &c1, City &c2);
+
+/**
+ * Function to sort a vector<City> using insertion sort.
+ * vector<City> &array: The vector to sort.
+ * int n: The length of the vector.
+ * Returns: None.
+*/
 void insertionSort(vector<City> &array, int n);
+
+/**
+ * Function to find the median of three given integers.
+ * int i: First integer.
+ * int j: Second integer.
+ * int k: Third integer.
+ * Returns: The median of the three integers.
+ * Side effects: None.
+*/
 int findMedian(int i, int j, int k);
+
+/**
+ * Function to partition a vector<City> using a random element as the pivot.
+ * vector<City> &array: The vector to partition.
+ * int low: The lower bound of the vector.
+ * int high: The upper bound of the vector.
+ * Returns: The index of the pivot.
+ * Side effects: None.
+ *            Writes the pivot and the vector to the log file if verbose mode is enabled.
+ *            See verboseLog() for more details.
+*/
 int randomizedPartition(vector<City> &array, int low, int high);
+
+/**
+ * Function to partition a vector<City> using the median of three random elements as the pivot.
+ * vector<City> &array: The vector to partition.
+ * int low: The lower bound of the vector.
+ * int high: The upper bound of the vector.
+ * Returns: The index of the pivot.
+ * Side effects: None.
+ *             Writes the pivot and the vector to the log file if verbose mode is enabled.
+ *             See verboseLog() for more details.
+*/
 int medianPartition(vector<City> &array, int low, int high);
+
+/**
+ * Function to partition a vector<City> using the last element as the pivot.
+ * vector<City> &array: The vector to partition.
+ * int low: The lower bound of the vector.
+ * int high: The upper bound of the vector.
+ * Returns: The index of the pivot.
+ * Side effects: None.
+ *              Writes the pivot and the vector to the log file if verbose mode is enabled.
+ *              See verboseLog() for more details.
+*/
 int partition(vector<City> &array, int low, int high);
+
+/**
+ * Function to sort a vector<City> using QuickSort.
+ * vector<City> &array: The vector to sort.
+ * int low: The lower bound of the vector.
+ * int high: The upper bound of the vector.
+ * int strategy: The pivot strategy to use.
+ * Returns: None.
+ * Side effects: None.
+*/
 void quickSort(vector<City> &array, int low, int high, int strategy);
+
+/**
+ * Function to sort a vector<City> using hybrid sort.
+ * vector<City> &array: The vector to sort.
+ * int low: The lower bound of the vector.
+ * int high: The upper bound of the vector.
+ * int threshold: The threshold value for hybrid sort.
+ * int strategy: The pivot strategy to use.
+ * Returns: None.
+ *             Calls insertionSort() if the length of the vector is less than or equal to the threshold value.
+ *            See insertionSort() for more details.
+*/
 void hybridSort(vector<City> &array, int low, int high, int threshold, int strategy);
 
+/**
+ * Function to print the pivot and the vector to the log file if verbose mode is enabled.
+ * vector<City> array: The vector to print.
+ * int length: The length of the vector.
+ * int pivot: The pivot to print.
+ * ofstream &logFile: The log file to print to.
+ * bool verbose: The verbose mode flag.
+ * Returns: None.
+*/
 void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose);
+
+/**
+ * Function to display the time taken by QuickSort with the given pivot strategy and threshold value.
+ * char strategy: The pivot strategy that was used.
+ * int threshold: The threshold value that was used.
+ * auto time: The time taken by QuickSort.
+ * Returns: None.
+*/
 void displayTimeElapsed(char strategy, int threshold, auto time);
+
+/**
+ * Function to display the wrong usage message.
+ * int argc: Number of command line arguments.
+ * char **argv: Array of command line arguments.
+ * Returns: None.
+*/
 void displayWrongUsageMessage(int argc, char **argv);
+
+/**
+ * Function to display the wrong file extension message.
+ * Returns: None.
+*/
 void displayWrongFileExtensionMessage();
+
+/**
+ * Function to display the wrong strategy message.
+ * Returns: None.
+*/
 void displayWrongStrategyMessage();
+
+/**
+ * Function to display the help message.
+ * Returns: None.
+*/
 void claHelp();
+
+/**
+ * Function to display the version message.
+ * Returns: None.
+*/
 void claVersion();
 #pragma endregion
 
+/**
+ * Main driver function.
+ * int argc: Number of command line arguments.
+ * char **argv: Array of command line arguments.
+ * Returns: EXIT_SUCCESS (0) if the program runs successfully, EXIT_FAILURE (1) otherwise.
+*/
 int main(int argc, char **argv)
 {
     int strategy;
@@ -134,25 +261,25 @@ int main(int argc, char **argv)
     if (!firstLine.empty() && firstLine[0] == '\xEF' && firstLine[1] == '\xBB' && firstLine[2] == '\xBF')
     {
         firstLine.erase(0, 3);
-        istringstream iss(firstLine);
+        istringstream stream(firstLine);
         City city;
-        getline(iss, city.name, ';');
-        iss >> city.population;
+        getline(stream, city.name, ';');
+        stream >> city.population;
         cities.push_back(city);
     }
 
     string line;
     while (getline(datasetFile, line))
     {
-        istringstream iss(line);
+        istringstream stream(line);
         City city;
-        getline(iss, city.name, ';');
-        iss >> city.population;
+        getline(stream, city.name, ';');
+        stream >> city.population;
         cities.push_back(city);
     }
 
     datasetFile.close();
-    
+
     auto start = chrono::high_resolution_clock::now();
 
     switch (threshold)
@@ -191,7 +318,7 @@ int main(int argc, char **argv)
 }
 
 #pragma region Sorting functions
-void swapElements(City& c1, City& c2)
+void swapElements(City &c1, City &c2)
 {
     City temp = c1;
     c1 = c2;
@@ -272,51 +399,62 @@ void quickSort(vector<City> &array, int low, int high, int strategy)
 {
     if (low < high)
     {
-        int border;
+        int pivotIndex;
         switch (strategy)
         {
         case LAST:
-            border = partition(array, low, high);
+            pivotIndex = partition(array, low, high);
             break;
         case RANDOM:
-            border = randomizedPartition(array, low, high);
+            pivotIndex = randomizedPartition(array, low, high);
             break;
         case MEDIAN:
-            border = medianPartition(array, low, high);
+            pivotIndex = medianPartition(array, low, high);
             break;
         default:
             break;
         }
 
-        quickSort(array, low, border - 1, strategy);
-        quickSort(array, border + 1, high, strategy);
+        quickSort(array, low, pivotIndex - 1, strategy);
+        quickSort(array, pivotIndex + 1, high, strategy);
     }
 }
 
+/**
+ * Function to sort a vector<City> using hybrid sort.
+ * vector<City> &array: The vector to sort.
+ * int low: The lower bound of the vector.
+ * int high: The upper bound of the vector.
+ * int threshold: The threshold value for hybrid sort.
+ * int strategy: The pivot strategy to use.
+ * Returns: None.
+ * Side effects: None.
+ * 
+*/
 void hybridSort(vector<City> &array, int low, int high, int threshold, int strategy)
 {
-    if (high > threshold)
+    if (high - low + 1 > threshold)
     {
         if (low < high)
         {
-            int border;
+            int pivotIndex;
             switch (strategy)
             {
             case LAST:
-                border = partition(array, low, high);
+                pivotIndex = partition(array, low, high);
                 break;
             case RANDOM:
-                border = randomizedPartition(array, low, high);
+                pivotIndex = randomizedPartition(array, low, high);
                 break;
             case MEDIAN:
-                border = medianPartition(array, low, high);
+                pivotIndex = medianPartition(array, low, high);
                 break;
             default:
                 break;
             }
 
-            hybridSort(array, low, border - 1, threshold, strategy);
-            hybridSort(array, border + 1, high, threshold, strategy);
+            hybridSort(array, low, pivotIndex - 1, threshold, strategy);
+            hybridSort(array, pivotIndex + 1, high, threshold, strategy);
         }
     }
     else
@@ -372,6 +510,7 @@ void displayTimeElapsed(char strategy, int threshold, auto time)
          << time << " ns." << endl;
 }
 
+
 void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose)
 {
     if (verbose)
@@ -393,16 +532,43 @@ void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bo
     }
 }
 
-// cla: command line argument
 void claHelp()
 {
     cout << "Usage: ./QuickSort <DATASET-FILE-NAME>.csv <l|r|m> <THRESHOLD VALUE> <OUTPUT-FILE-NAME>.csv [v]" << endl;
+    cout << "Options:" << endl;
+    cout << "  <DATASET-FILE-NAME>.csv: The name of the dataset file in CSV format." << endl;
+    cout << "  <l|r|m>: The pivot strategy to use for QuickSort. 'l' for last element, 'r' for random, 'm' for median of three random." << endl;
+    cout << "  <THRESHOLD VALUE>: The threshold value for hybrid sort. Elements below this threshold will be sorted using insertion sort." << endl;
+    cout << "  <OUTPUT-FILE-NAME>.csv: The name of the output file to store the sorted dataset in CSV format." << endl;
+    cout << "  [v]: Optional flag to enable verbose mode. Displays additional information during sorting." << endl;
     return;
 }
 
 void claVersion()
 {
-    cout << "BLG 335E Analysis of Algorithms I Project 1 submitted version" << endl;
+    cout << "==============================================" << endl;
+    cout << "BLG 335E Analysis of Algorithms I Project 1" << endl;
+    cout << "QuickSort" << endl;
+    cout << "Submitted Version" << endl;
+    cout << "==============================================" << endl;
+
+    cout << "                      ,////," << endl;
+    cout << "                      /// 6|" << endl;
+    cout << "                      //  _|" << endl;
+    cout << "                     _/_,-'" << endl;
+    cout << "                _.-/'/   \\   ,/;," << endl;
+    cout << "             ,-' /'  \\_   \\ / _/" << endl;
+    cout << "             `\\ /     _/\\  ` /" << endl;
+    cout << "               |     /,  `\\_/" << endl;
+    cout << "               |     \\'" << endl;
+    cout << "   /\\_        /`      /\\" << endl;
+    cout << " /' /_``--.__/\\  `,. /  \\" << endl;
+    cout << "|_/`  `-._     `\\/  `\\   `." << endl;
+    cout << "          `-.__/'     `\\   |" << endl;
+    cout << "                        `\\  \\" << endl;
+    cout << "                          `\\ \\" << endl;
+    cout << "                            \\_\\__" << endl;
+    cout << "                             \\___)" << endl;
     return;
 }
 #pragma endregion
