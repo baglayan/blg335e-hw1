@@ -1,8 +1,11 @@
-// BLG 335E Analysis of Algorithms Project 1
-//
-// Name: Meriç Bağlayan
-// Id  : 150190056
-// Date: 2023-11-09
+/**
+ * QuickSort.cpp
+ * BLG 335E Analysis of Algorithms Project 1
+ * 
+ * Name: Meriç Bağlayan
+ * Id  : 150190056
+ * Date: 2023-11-24
+ */
 
 #include <chrono>
 #include <iostream>
@@ -42,150 +45,151 @@ bool verbose;
 
 #pragma region Function declarations
 /**
- * Function to swap two elements of type City in a vector<City>.
- * City &c1: First element to swap.
- * City &c2: Second element to swap.
- * Returns: None.
-*/
+ * @brief Function to swap two elements of type City in a vector<City>.
+ * 
+ * @param c1 - First element to swap.
+ * @param c2 - Second element to swap.
+ */
 void swapElements(City &c1, City &c2);
 
 /**
- * Function to sort a vector<City> using insertion sort.
- * vector<City> &array: The vector to sort.
- * int n: The length of the vector.
- * Returns: None.
-*/
+ * @brief Function to sort a vector<City> using insertion sort.
+ * 
+ * @param array The vector to sort.
+ * @param n The length of the vector.
+ */
 void insertionSort(vector<City> &array, int n);
 
 /**
- * Function to find the median of three given integers.
- * int i: First integer.
- * int j: Second integer.
- * int k: Third integer.
- * Returns: The median of the three integers.
- * Side effects: None.
-*/
+ * @brief Function to find the median of three given integers.
+ * 
+ * @param i First integer.
+ * @param j Second integer.
+ * @param k Third integer.
+ * @return The median of the three integers.
+ */
 int findMedian(int i, int j, int k);
 
 /**
- * Function to partition a vector<City> using a random element as the pivot.
- * vector<City> &array: The vector to partition.
- * int low: The lower bound of the vector.
- * int high: The upper bound of the vector.
- * Returns: The index of the pivot.
- * Side effects: None.
- *            Writes the pivot and the vector to the log file if verbose mode is enabled.
- *            See verboseLog() for more details.
-*/
+ * @brief Function to partition a vector<City> using a random element as the pivot.
+ * 
+ * @param array The vector to partition.
+ * @param low The lower bound of the vector.
+ * @param high The upper bound of the vector.
+ * @return The index of the pivot.
+ *         Writes the pivot and the vector to the log file if verbose mode is enabled.
+ *         See verboseLog() for more details.
+ */
 int randomizedPartition(vector<City> &array, int low, int high);
 
 /**
- * Function to partition a vector<City> using the median of three random elements as the pivot.
- * vector<City> &array: The vector to partition.
- * int low: The lower bound of the vector.
- * int high: The upper bound of the vector.
- * Returns: The index of the pivot.
- * Side effects: None.
- *             Writes the pivot and the vector to the log file if verbose mode is enabled.
- *             See verboseLog() for more details.
-*/
+ * @brief Function to partition a vector<City> using the median of three random elements as the pivot.
+ * 
+ * @param array The vector to partition.
+ * @param low The lower bound of the vector.
+ * @param high The upper bound of the vector.
+ * @return The index of the pivot.
+ *         Writes the pivot and the vector to the log file if verbose mode is enabled.
+ *         See verboseLog() for more details.
+ */
 int medianPartition(vector<City> &array, int low, int high);
 
 /**
- * Function to partition a vector<City> using the last element as the pivot.
- * vector<City> &array: The vector to partition.
- * int low: The lower bound of the vector.
- * int high: The upper bound of the vector.
- * Returns: The index of the pivot.
- * Side effects: None.
- *              Writes the pivot and the vector to the log file if verbose mode is enabled.
- *              See verboseLog() for more details.
-*/
+ * @brief Function to partition a vector<City> using the last element as the pivot.
+ *      Writes the pivot and the vector to the log file if verbose mode is enabled.
+ *      See verboseLog() for more details.
+ * 
+ * @param array The vector to partition.
+ * @param low The lower bound of the vector.
+ * @param high The upper bound of the vector.
+ * @return The index of the pivot.
+ */
 int partition(vector<City> &array, int low, int high);
 
 /**
- * Function to sort a vector<City> using QuickSort.
- * vector<City> &array: The vector to sort.
- * int low: The lower bound of the vector.
- * int high: The upper bound of the vector.
- * int strategy: The pivot strategy to use.
- * Returns: None.
- * Side effects: None.
-*/
+ * @brief Function to sort a vector<City> using QuickSort.
+ * 
+ * @param array The vector to sort.
+ * @param low The lower bound of the vector.
+ * @param high The upper bound of the vector.
+ * @param strategy The pivot strategy to use.
+ */
 void quickSort(vector<City> &array, int low, int high, int strategy);
 
 /**
- * Function to sort a vector<City> using hybrid sort.
- * vector<City> &array: The vector to sort.
- * int low: The lower bound of the vector.
- * int high: The upper bound of the vector.
- * int threshold: The threshold value for hybrid sort.
- * int strategy: The pivot strategy to use.
- * Returns: None.
- *             Calls insertionSort() if the length of the vector is less than or equal to the threshold value.
- *            See insertionSort() for more details.
-*/
+ * @brief Function to sort a vector<City> using hybrid sort.
+ *      Calls insertionSort() if the length of the vector is less than or equal to the threshold value.
+ *      See insertionSort() for more details.
+ * 
+ * @param array The vector to sort.
+ * @param low The lower bound of the vector.
+ * @param high The upper bound of the vector.
+ * @param threshold The threshold value for hybrid sort.
+ * @param strategy The pivot strategy to use.
+ */
 void hybridSort(vector<City> &array, int low, int high, int threshold, int strategy);
 
 /**
- * Function to print the pivot and the vector to the log file if verbose mode is enabled.
- * vector<City> array: The vector to print.
- * int length: The length of the vector.
- * int pivot: The pivot to print.
- * ofstream &logFile: The log file to print to.
- * bool verbose: The verbose mode flag.
- * Returns: None.
-*/
+ * @brief Function to print the pivot and the vector to the log file if verbose mode is enabled.
+ * 
+ * @param array The vector to print.
+ * @param length The length of the vector.
+ * @param pivot The pivot to print.
+ * @param logFile The log file to print to.
+ * @param verbose The verbose mode flag.
+ */
 void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose);
 
 /**
- * Function to display the time taken by QuickSort with the given pivot strategy and threshold value.
- * char strategy: The pivot strategy that was used.
- * int threshold: The threshold value that was used.
- * auto time: The time taken by QuickSort.
- * Returns: None.
-*/
+ * @brief Function to display the time taken by QuickSort with the given pivot strategy and threshold value.
+ * 
+ * @param strategy The pivot strategy that was used.
+ * @param threshold The threshold value that was used.
+ * @param time The time taken by QuickSort.
+ */
 void displayTimeElapsed(char strategy, int threshold, auto time);
 
 /**
- * Function to display the wrong usage message.
- * int argc: Number of command line arguments.
- * char **argv: Array of command line arguments.
- * Returns: None.
-*/
+ * @brief Function to display the wrong usage message.
+ * 
+ * @param argc Number of command line arguments.
+ * @param argv Array of command line arguments.
+ */
 void displayWrongUsageMessage(int argc, char **argv);
 
 /**
- * Function to display the wrong file extension message.
- * Returns: None.
-*/
+ * @brief Function to display the wrong file extension message.
+ */
 void displayWrongFileExtensionMessage();
 
 /**
- * Function to display the wrong strategy message.
- * Returns: None.
-*/
+ * @brief Function to display the wrong strategy message.
+ */
 void displayWrongStrategyMessage();
 
 /**
- * Function to display the help message.
- * Returns: None.
-*/
+ * @brief Function to display the help message.
+ */
 void claHelp();
 
 /**
- * Function to display the version message.
- * Returns: None.
-*/
+ * @brief Function to display the version message.
+ */
 void claVersion();
 #pragma endregion
 
 /**
- * Main driver function.
- * int argc: Number of command line arguments.
- * char **argv: Array of command line arguments.
- * Returns: EXIT_SUCCESS (0) if the program runs successfully, EXIT_FAILURE (1) otherwise.
-*/
+ * @brief Main driver function.
+ *          Failure cases:
+ *          - Wrong number of command line arguments.
+ *          - Wrong file extensions.
+ *          - Wrong pivot strategy.
+ *          - Failure to open the dataset file.
+ *          - Failure to open the output file.
+ * @param argc Number of command line arguments.
+ * @param argv Array of command line arguments.
+ * @return EXIT_SUCCESS (0) if the program runs successfully, EXIT_FAILURE (1) otherwise.
+ */
 int main(int argc, char **argv)
 {
     int strategy;
@@ -359,7 +363,10 @@ int partition(vector<City> &array, int low, int high)
 int randomizedPartition(vector<City> &array, int low, int high)
 {
     srand(time(0));
-    int pivot = (rand() % (high - low + 1)) + low;
+    int pivot;
+    do {
+        pivot = (rand() % (high - low + 1)) + low;
+    } while (pivot == high);
     swapElements(array[high], array[pivot]);
     return partition(array, low, high);
 }
@@ -367,15 +374,18 @@ int randomizedPartition(vector<City> &array, int low, int high)
 int medianPartition(vector<City> &array, int low, int high)
 {
     srand(time(0));
-    int i = (rand() % (high - low + 1)) + low;
-    int j = (rand() % (high - low + 1)) + low;
-    int k = (rand() % (high - low + 1)) + low;
+
+    int i, j, k;
+    do {
+        i = (rand() % (high - low + 1)) + low;
+        j = (rand() % (high - low + 1)) + low;
+        k = (rand() % (high - low + 1)) + low;
+    } while (i == j || i == k || j == k);
+
     swapElements(array[high], array[findMedian(i, j, k)]);
     return partition(array, low, high);
 }
 
-// Lightning fast sorting for 3 elements.
-// Only three comparisons and no swaps
 int findMedian(int i, int j, int k)
 {
     if (i < j)
@@ -420,17 +430,6 @@ void quickSort(vector<City> &array, int low, int high, int strategy)
     }
 }
 
-/**
- * Function to sort a vector<City> using hybrid sort.
- * vector<City> &array: The vector to sort.
- * int low: The lower bound of the vector.
- * int high: The upper bound of the vector.
- * int threshold: The threshold value for hybrid sort.
- * int strategy: The pivot strategy to use.
- * Returns: None.
- * Side effects: None.
- * 
-*/
 void hybridSort(vector<City> &array, int low, int high, int threshold, int strategy)
 {
     if (high - low + 1 > threshold)
@@ -509,7 +508,6 @@ void displayTimeElapsed(char strategy, int threshold, auto time)
     cout << "Time taken by QuickSort with pivot strategy '" << strategy << "' and threshold " << threshold << ": "
          << time << " ns." << endl;
 }
-
 
 void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose)
 {
