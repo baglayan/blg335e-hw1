@@ -43,4 +43,5 @@ else
     if [ "$out_of_order_count" -lt 10 ]; then
         echo "Out-of-order elements found at positions: ${out_of_order_positions[*]}"
     fi
+    exit 1
 fi
