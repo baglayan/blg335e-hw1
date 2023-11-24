@@ -25,9 +25,3 @@ RUN pip install calico
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd","-D"]
-
-COPY QuickSort.cpp /home/ubuntu/hostVolume/hw1/
-COPY population1.csv /home/ubuntu/hostVolume/hw1/
-COPY population2.csv /home/ubuntu/hostVolume/hw1/
-COPY population3.csv /home/ubuntu/hostVolume/hw1/
-COPY population4.csv /home/ubuntu/hostVolume/hw1/
