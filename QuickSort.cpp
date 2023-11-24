@@ -1,7 +1,7 @@
 /**
  * QuickSort.cpp
  * BLG 335E Analysis of Algorithms Project 1
- * 
+ *
  * Name: Meriç Bağlayan
  * Id  : 150190056
  * Date: 2023-11-24
@@ -46,7 +46,7 @@ bool verbose;
 #pragma region Function declarations
 /**
  * @brief Function to swap two elements of type City in a vector<City>.
- * 
+ *
  * @param c1 - First element to swap.
  * @param c2 - Second element to swap.
  */
@@ -54,7 +54,7 @@ void swapElements(City &c1, City &c2);
 
 /**
  * @brief Function to sort a vector<City> using insertion sort.
- * 
+ *
  * @param array The vector to sort.
  * @param n The length of the vector.
  */
@@ -62,7 +62,7 @@ void insertionSort(vector<City> &array, int n);
 
 /**
  * @brief Function to find the median of three given integers.
- * 
+ *
  * @param i First integer.
  * @param j Second integer.
  * @param k Third integer.
@@ -72,7 +72,7 @@ int findMedian(int i, int j, int k);
 
 /**
  * @brief Function to partition a vector<City> using a random element as the pivot.
- * 
+ *
  * @param array The vector to partition.
  * @param low The lower bound of the vector.
  * @param high The upper bound of the vector.
@@ -84,7 +84,7 @@ int randomizedPartition(vector<City> &array, int low, int high);
 
 /**
  * @brief Function to partition a vector<City> using the median of three random elements as the pivot.
- * 
+ *
  * @param array The vector to partition.
  * @param low The lower bound of the vector.
  * @param high The upper bound of the vector.
@@ -98,7 +98,7 @@ int medianPartition(vector<City> &array, int low, int high);
  * @brief Function to partition a vector<City> using the last element as the pivot.
  *      Writes the pivot and the vector to the log file if verbose mode is enabled.
  *      See verboseLog() for more details.
- * 
+ *
  * @param array The vector to partition.
  * @param low The lower bound of the vector.
  * @param high The upper bound of the vector.
@@ -108,7 +108,7 @@ int partition(vector<City> &array, int low, int high);
 
 /**
  * @brief Function to sort a vector<City> using QuickSort.
- * 
+ *
  * @param array The vector to sort.
  * @param low The lower bound of the vector.
  * @param high The upper bound of the vector.
@@ -120,7 +120,7 @@ void quickSort(vector<City> &array, int low, int high, int strategy);
  * @brief Function to sort a vector<City> using hybrid sort.
  *      Calls insertionSort() if the length of the vector is less than or equal to the threshold value.
  *      See insertionSort() for more details.
- * 
+ *
  * @param array The vector to sort.
  * @param low The lower bound of the vector.
  * @param high The upper bound of the vector.
@@ -131,7 +131,7 @@ void hybridSort(vector<City> &array, int low, int high, int threshold, int strat
 
 /**
  * @brief Function to print the pivot and the vector to the log file if verbose mode is enabled.
- * 
+ *
  * @param array The vector to print.
  * @param length The length of the vector.
  * @param pivot The pivot to print.
@@ -142,7 +142,7 @@ void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bo
 
 /**
  * @brief Function to display the time taken by QuickSort with the given pivot strategy and threshold value.
- * 
+ *
  * @param strategy The pivot strategy that was used.
  * @param threshold The threshold value that was used.
  * @param time The time taken by QuickSort.
@@ -151,7 +151,7 @@ void displayTimeElapsed(char strategy, int threshold, auto time);
 
 /**
  * @brief Function to display the wrong usage message.
- * 
+ *
  * @param argc Number of command line arguments.
  * @param argv Array of command line arguments.
  */
@@ -364,7 +364,8 @@ int randomizedPartition(vector<City> &array, int low, int high)
 {
     srand(time(0));
     int pivot;
-    do {
+    do
+    {
         pivot = (rand() % (high - low + 1)) + low;
     } while (pivot == high);
     swapElements(array[high], array[pivot]);
@@ -374,13 +375,9 @@ int randomizedPartition(vector<City> &array, int low, int high)
 int medianPartition(vector<City> &array, int low, int high)
 {
     srand(time(0));
-
-    int i, j, k;
-    do {
-        i = (rand() % (high - low + 1)) + low;
-        j = (rand() % (high - low + 1)) + low;
-        k = (rand() % (high - low + 1)) + low;
-    } while (i == j || i == k || j == k);
+    int i = (rand() % (high - low + 1)) + low;
+    int j = (rand() % (high - low + 1)) + low;
+    int k = (rand() % (high - low + 1)) + low;
 
     swapElements(array[high], array[findMedian(i, j, k)]);
     return partition(array, low, high);
@@ -432,7 +429,7 @@ void quickSort(vector<City> &array, int low, int high, int strategy)
 
 void hybridSort(vector<City> &array, int low, int high, int threshold, int strategy)
 {
-    if (high - low + 1 > threshold)
+    if (high > threshold)
     {
         if (low < high)
         {
