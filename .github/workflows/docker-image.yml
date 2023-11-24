@@ -33,33 +33,33 @@ jobs:
 
     - name: Run with different args and log
       run: |
-        docker run algo-hw1:${{env.CURRENT_TIME}} echo [Different pivoting strategies] >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} echo Population 1: >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population1.csv l 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population1.csv r 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population1.csv m 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} echo Population 2: >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population2.csv l 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population2.csv r 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population2.csv m 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} echo Population 3: >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population3.csv l 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population3.csv r 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population3.csv m 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} echo Population 4: >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv l 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv m 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} echo [Hybrid algorithm] >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 1 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 15 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 120 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 2000 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 3600 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 5700 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 7950 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 9900 output.csv >> time.log
-        docker run algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 13600 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} echo [Different pivoting strategies] >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} echo Population 1: >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population1.csv l 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population1.csv r 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population1.csv m 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} echo Population 2: >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population2.csv l 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population2.csv r 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population2.csv m 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} echo Population 3: >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population3.csv l 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population3.csv r 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population3.csv m 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} echo Population 4: >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv l 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv m 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} echo [Hybrid algorithm] >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 1 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 15 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 120 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 2000 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 3600 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 5700 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 7950 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 9900 output.csv >> time.log
+        docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /home/ubuntu/hostVolume/hw1/QuickSort population4.csv r 13600 output.csv >> time.log
 
     - name: Display time.log
       run: cat time.log
