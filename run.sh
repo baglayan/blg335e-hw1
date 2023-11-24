@@ -18,8 +18,8 @@ hybrid_tests() {
     for i in 1 2 3 4; do
         echo "Population $i:" >> /home/ubuntu/hostVolume/hw1/time.log
         for threshold in "${thresholds[@]}"; do
-            /home/ubuntu/hostVolume/hw1/QuickSort "/home/ubuntu/hostVolume/hw1/data/population$i.csv" r $threshold "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-r-$threshold.csv" >> /home/ubuntu/hostVolume/hw1/time.log
-            /home/ubuntu/hostVolume/hw1/test.sh "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-r-$threshold.csv" >> /home/ubuntu/hostVolume/hw1/time.log
+            /home/ubuntu/hostVolume/hw1/QuickSort "/home/ubuntu/hostVolume/hw1/data/population$i.csv" m $threshold "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-m-$threshold.csv" >> /home/ubuntu/hostVolume/hw1/time.log
+            /home/ubuntu/hostVolume/hw1/test.sh "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-m-$threshold.csv" >> /home/ubuntu/hostVolume/hw1/time.log
             check_test_failure $?
             echo >> /home/ubuntu/hostVolume/hw1/time.log
         done
