@@ -1,27 +1,27 @@
 #!/bin/bash
 strategy_tests() {
-    echo [Different pivoting strategies] >> time.log
+    echo [Different pivoting strategies] >> /home/ubuntu/hostVolume/hw1/time.log
     for i in 1 2 3 4; do
-        echo "Population $i:" >> time.log
+        echo "Population $i:" >> /home/ubuntu/hostVolume/hw1/time.log
         for strategy in l r m; do
-            /home/ubuntu/hostVolume/hw1/QuickSort "/home/ubuntu/hostVolume/hw1/data/population$i.csv" $strategy 1 "/home/ubuntu/hostVolume/hw1/out/pop$i-$strategy.csv" >> time.log
-            /home/ubuntu/hostVolume/hw1/test.sh "/home/ubuntu/hostVolume/hw1/out/pop$i-$strategy.csv" >> time.log
+            /home/ubuntu/hostVolume/hw1/QuickSort "/home/ubuntu/hostVolume/hw1/data/population$i.csv" $strategy 1 "/home/ubuntu/hostVolume/hw1/out/pop$i-$strategy.csv" >> /home/ubuntu/hostVolume/hw1/time.log
+            /home/ubuntu/hostVolume/hw1/test.sh "/home/ubuntu/hostVolume/hw1/out/pop$i-$strategy.csv" >> /home/ubuntu/hostVolume/hw1/time.log
             check_test_failure $?
-            echo >> time.log
+            echo >> /home/ubuntu/hostVolume/hw1/time.log
         done
     done
 }
 
 hybrid_tests() {
-    echo [Hybrid algorithm] >> time.log
+    echo [Hybrid algorithm] >> /home/ubuntu/hostVolume/hw1/time.log
     thresholds=(1 15 120 2000 3600 5700 7950 9900 13600)
     for i in 1 2 3 4; do
-        echo "Population $i:" >> time.log
+        echo "Population $i:" >> /home/ubuntu/hostVolume/hw1/time.log
         for threshold in "${thresholds[@]}"; do
-            /home/ubuntu/hostVolume/hw1/QuickSort "/home/ubuntu/hostVolume/hw1/data/population$i.csv" r $threshold "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-r-$threshold.csv" >> time.log
-            /home/ubuntu/hostVolume/hw1/test.sh "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-r-$threshold.csv" >> time.log
+            /home/ubuntu/hostVolume/hw1/QuickSort "/home/ubuntu/hostVolume/hw1/data/population$i.csv" r $threshold "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-r-$threshold.csv" >> /home/ubuntu/hostVolume/hw1/time.log
+            /home/ubuntu/hostVolume/hw1/test.sh "/home/ubuntu/hostVolume/hw1/out/pop$i-hybrid-r-$threshold.csv" >> /home/ubuntu/hostVolume/hw1/time.log
             check_test_failure $?
-            echo >> time.log
+            echo >> /home/ubuntu/hostVolume/hw1/time.log
         done
     done
 }
