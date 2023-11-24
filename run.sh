@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 strategy_tests() {
     echo [Different pivoting strategies] >> time.log
     for i in 1 2 3 4; do
