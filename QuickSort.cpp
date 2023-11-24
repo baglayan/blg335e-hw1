@@ -155,7 +155,7 @@ void displayTimeElapsed(char strategy, int threshold, auto time);
  * @param argc Number of command line arguments.
  * @param argv Array of command line arguments.
  */
-void displayWrongUsageMessage(int argc, char **argv);
+void displayWrongUsageMessage(int argc, const char **argv);
 
 /**
  * @brief Function to display the wrong file extension message.
@@ -190,7 +190,7 @@ void claVersion();
  * @param argv Array of command line arguments.
  * @return EXIT_SUCCESS (0) if the program runs successfully, EXIT_FAILURE (1) otherwise.
  */
-int main(int argc, char **argv)
+int main(int argc, const char **argv)
 {
     int strategy;
 
@@ -218,9 +218,9 @@ int main(int argc, char **argv)
             {
                 if (i < 2)
                     strategy = LAST;
-                else if (i >= 2 && i < 4)
+                else if (i < 4)
                     strategy = RANDOM;
-                else if (i >= 4 && i < 6)
+                else if (i < 6)
                     strategy = MEDIAN;
                 break;
             }
@@ -475,7 +475,7 @@ void displayWrongStrategyMessage()
     cerr << "You need to specify a valid pivot strategy, see --help for details." << endl;
 }
 
-void displayWrongUsageMessage(int argc, char **argv)
+void displayWrongUsageMessage(int argc, const char **argv)
 {
     switch (argc)
     {
