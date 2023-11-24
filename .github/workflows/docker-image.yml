@@ -21,9 +21,6 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag algo-hw1:${{env.CURRENT_TIME}}
 
-    - name: Create output file
-      run: touch time.log
-
     - name: Compile code
       run: docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /usr/bin/g++ -fdiagnostics-color=always -g /home/ubuntu/hostVolume/hw1/QuickSort.cpp -o /home/ubuntu/hostVolume/hw1/QuickSort
 
