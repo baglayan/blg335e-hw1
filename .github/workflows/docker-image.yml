@@ -25,10 +25,10 @@ jobs:
       run: touch time.log
 
     - name: Compile code
-      run: docker run algo-hw1:${{env.CURRENT_TIME}} /usr/bin/g++ -fdiagnostics-color=always -g /home/ubuntu/hostVolume/hw1/QuickSort.cpp -o /home/ubuntu/hostVolume/hw1/QuickSort
+      run: docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} /usr/bin/g++ -fdiagnostics-color=always -g /home/ubuntu/hostVolume/hw1/QuickSort.cpp -o /home/ubuntu/hostVolume/hw1/QuickSort
 
     - name: List directory contents
-      run: docker run algo-hw1:${{env.CURRENT_TIME}} ls -l /home/ubuntu/hostVolume/hw1/
+      run: docker run -v ${{ github.workspace }}:/home/ubuntu/hostVolume/hw1 algo-hw1:${{env.CURRENT_TIME}} ls -l /home/ubuntu/hostVolume/hw1/
 
 
     - name: Run with different args and log
