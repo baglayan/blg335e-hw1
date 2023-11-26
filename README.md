@@ -1,7 +1,8 @@
 # 2023-2024 Fall Analysis of Algorithms 1 Project 1
 
-[![C++ Linting](https://github.com/baglayan/blg335e-hw1/actions/workflows/cpp-lint.yml/badge.svg)](https://github.com/baglayan/blg335e-hw1/actions/workflows/cpp-lint.yml)
-[![Docker build and run](https://github.com/baglayan/blg335e-hw1/actions/workflows/docker-image.yml/badge.svg)](https://github.com/baglayan/blg335e-hw1/actions/workflows/docker-image.yml)
+[![C++ Lint with cppcheck](https://github.com/baglayan/blg335e-hw1/actions/workflows/cpp-lint.yml/badge.svg)](https://github.com/baglayan/blg335e-hw1/actions/workflows/cpp-lint.yml)
+[![Docker build, run, test](https://github.com/baglayan/blg335e-hw1/actions/workflows/docker-image.yml/badge.svg)](https://github.com/baglayan/blg335e-hw1/actions/workflows/docker-image.yml)
+[![Package deliverables](https://github.com/baglayan/blg335e-hw1/actions/workflows/release.yml/badge.svg)](https://github.com/baglayan/blg335e-hw1/actions/workflows/release.yml)
 
 ## Introduction
 
@@ -12,7 +13,7 @@ This project implements a QuickSort algorithm for sorting city populations. It i
 To build and run this project:
 1. Clone the repository.
 2. Navigate to the project directory.
-3. Execute `g++ -fdiagnostics-color=always -g QuickSort.cpp -o QuickSort`.
+3. Execute `g++ -fdiagnostics-color=always -g QuickSort.cpp -o QuickSort`
 4. Run the execute with the following format: `./QuickSort <DATASET-FILE-NAME>.csv <l|r|m> <THRESHOLD VALUE> <OUTPUT-FILE-NAME>.csv [v]`
 
 ## GitHub Workflows
@@ -24,3 +25,11 @@ This workflow builds a Docker image and compiles the QuickSort code whenever cha
 ### C++ Linting
 
 This workflow performs linting on the QuickSort.cpp file using cppcheck.
+
+### Packaging deliverables
+
+This workflow compiles the LaTeX report and puts it in a zip archive with QuickSort.cpp in preparation for homework upload.
+
+## Notice
+
+This repository was made public after the submission date.

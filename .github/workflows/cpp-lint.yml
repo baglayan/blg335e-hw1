@@ -1,4 +1,4 @@
-name: C++ Linting
+name: C++ Lint with cppcheck
 
 on: [push, pull_request]
 
@@ -8,7 +8,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install cppcheck
       run: sudo apt-get update && sudo apt-get install cppcheck

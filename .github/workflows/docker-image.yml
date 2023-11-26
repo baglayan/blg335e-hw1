@@ -1,4 +1,4 @@
-name: Docker build and run
+name: Docker build, run, test
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set CURRENT_TIME environment variable
       run: echo "CURRENT_TIME=$(date +%s)" >> $GITHUB_ENV
