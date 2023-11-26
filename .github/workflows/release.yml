@@ -17,16 +17,18 @@ jobs:
       run: sudo apt-get install texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
 
     - name: Compile LaTeX document
-      run: pdflatex -interaction=nonstopmode -halt-on-error report/Main.tex
+      run: pdflatex -interaction=nonstopmode -halt-on-error Main.tex
+      working-directory: ./report
 
     - name: Rename PDF
       run: mv Main.pdf ${{ secrets.STUDENT_NUMBER }}_report.pdf
+      working-directory: ./report
 
     - name: Rename C++ file
       run: mv QuickSort.cpp ${{ secrets.STUDENT_NUMBER }}_quicksort.cpp
 
     - name: Zip the files
-      run: zip release.zip ${{ secrets.STUDENT_NUMBER }}_report.pdf ${{ secrets.STUDENT_NUMBER }}_quicksort.cpp
+      run: zip release.zip ./report/${{ secrets.STUDENT_NUMBER }}_report.pdf ${{ secrets.STUDENT_NUMBER }}_quicksort.cpp
 
     - name: Upload Zip as artifact
       uses: actions/upload-artifact@v2
