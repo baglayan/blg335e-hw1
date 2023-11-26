@@ -296,6 +296,7 @@ int main(int argc, const char **argv)
     }
 
     datasetFile.close();
+    srand(time(0));
 
     auto start = chrono::high_resolution_clock::now();
 
@@ -365,24 +366,23 @@ void insertionSort(vector<City> &array, int low, int high)
 
 int partition(vector<City> &array, int low, int high)
 {
-    City pivot = array[high];
+    int pivot = array[high].population;
     int i = low - 1;
     for (int j = low; j <= high; j++)
     {
-        if (array[j].population < pivot.population)
+        if (array[j].population < pivot)
         {
             i++;
             swapElements(array[i], array[j]);
         }
     }
     swapElements(array[high], array[i + 1]);
-    verboseLog(array, high, pivot.population, logFile, verbose);
+    verboseLog(array, high, pivot, logFile, verbose);
     return i + 1;
 }
 
 int randomizedPartition(vector<City> &array, int low, int high)
 {
-    srand(time(0));
     int pivot;
     do
     {
@@ -394,7 +394,6 @@ int randomizedPartition(vector<City> &array, int low, int high)
 
 int medianPartition(vector<City> &array, int low, int high)
 {
-    srand(time(0));
     int i = (rand() % (high - low + 1)) + low;
     int j = (rand() % (high - low + 1)) + low;
     int k = (rand() % (high - low + 1)) + low;
