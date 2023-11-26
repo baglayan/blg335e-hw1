@@ -1,0 +1,110 @@
+\label{Complexity}
+
+\section{Characteristics of Tested Inputs}
+For our implementation, sorted means data is sorted ascending by population and reverse sorted means data is sorted descending by population.
+\begin{itemize}
+    \item \id{Population1} is nearly reverse sorted.
+    \item \id{Population2} is fully sorted.
+    \item \id{Population3} is fully reverse sorted.
+    \item \id{Population4} is randomized.
+\end{itemize}
+\section{Quicksort with Different Pivoting Strategies}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                        & \textbf{Population1} & \textbf{Population2} & \textbf{Population3} & \textbf{Population4} \\ \hline
+\textbf{Last Element}   & 7298632475 & 11960889269 & 11362067364 & 5658949516 \\ \hline
+\textbf{Random Element} & 5682853798 & 5194265927 & 5735699111 & 5643748506 \\ \hline
+\textbf{Median of 3}    & 5624402705 & 5485951552 & 5604252894 & 5655871916 \\ \hline
+\end{tabular}
+\caption{Comparison of different pivoting strategies on input data. Times are given in nanoseconds. }
+\label{table:part1}
+\end{table}
+Last Element strategy worked the best for the randomized input. The worst performance was for sorted and reverse sorted inputs where \textsc{Quicksort} exhibits $\Theta(n^2)$ time complexity while nearly reverse sorted input gave a performance somewhere in between. There was no meaningful difference between the performance of \textsc{Quicksort} implementations with \textsc{Randomized-Partition} and \textsc{Median-Partition}.
+
+With Random Element and Median of Three strategies, \textsc{Quicksort} exhibits average-case time complexity of $\Theta(\log n)$.
+
+Worst case space complexity is exhibited in sorted (either way) inputs with Last Element pivot strategy because each recursive call decreases the problem size by 1, which makes the space complexity $O(n)$.
+
+In the randomized strategies, the vector will be partitioned more evenly, thus leading to a space complexity of $O(\log n)$ due to the height of the recursion tree being $\log n$.
+
+
+\section{Hybrid Algorithm with Quicksort and Insertion Sort}
+
+While testing the hybrid algorithms, I chose to employ the Median of Three strategy as it seemed the safest that doesn't unnecessarily affect the outcome.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Threshold (k)} & 1 & 15 & 120 \\ \hline
+\textbf{Population1}   & 5695064197 & 1011896098 & 150107382 \\ \hline
+\hline
+\textbf{Threshold (k)} & 2000 & 3600 & 5700 \\ \hline
+\textbf{Population1}   & 148049867 & 257086054 & 291023099 \\ \hline
+\hline
+\textbf{Threshold (k)} & 7950 & 9900 & 13600 \\ \hline
+\textbf{Population1}   & 378580131 & 719211287 & 722346810 \\ \hline
+\end{tabular}
+\caption{Comparison of different thresholds on the hybrid Quicksort algorithm on \id{Population1}. Times are given in nanoseconds.}
+\label{table:pop1}
+\end{table}
+
+For the nearly reverse sorted input \id{Population1}, the hybrid approach brings benefits as the threshold increases, up until 2000 which is around the optimal threshold. After this point, the $\Theta(n^2)$ running time of \textsc{Insertion-Sort} is too strong to keep the running time low. However, it appears that the complex operations within \textsc{Quicksort} have a big overhead, even for inputs with almost 14000 size.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Threshold (k)} & 1 & 15 & 120 \\ \hline
+\textbf{Population2}   & 5488066228 & 1029605336 & 140209313 \\ \hline
+\hline
+\textbf{Threshold (k)} & 2000 & 3600 & 5700 \\ \hline
+\textbf{Population2}   & 9708249 & 6389432 & 3675618 \\ \hline
+\hline
+\textbf{Threshold (k)} & 7950 & 9900 & 13600 \\ \hline
+\textbf{Population2}   & 3043416 & 1933110 & 1929010 \\ \hline
+\end{tabular}
+\caption{Comparison of different thresholds on the hybrid Quicksort algorithm on \id{Population2}. Times are given in nanoseconds.}
+\label{table:pop2}
+\end{table}
+
+Since the input dataset in file \id{Population2.csv} is sorted, \textsc{Insertion-Sort} does what it does best and makes quick work of it as the complexity approaches $\Theta(n)$ as the threshold increases. Lower threshold becomes a bottleneck in this case.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Threshold (k)} & 1 & 15 & 120 \\ \hline
+\textbf{Population3}   & 5580137477 & 1044644433 & 153179976 \\ \hline
+\hline
+\textbf{Threshold (k)} & 2000 & 3600 & 5700 \\ \hline
+\textbf{Population3}   & 155970695 & 275079931 & 413781805 \\ \hline
+\hline
+\textbf{Threshold (k)} & 7950 & 9900 & 13600 \\ \hline
+\textbf{Population3}   & 413464602 & 1197008288 & 1596258654 \\ \hline
+\end{tabular}
+\caption{Comparison of different thresholds on the hybrid Quicksort algorithm on \id{Population3}. Times are given in nanoseconds.}
+\label{table:pop3}
+\end{table}
+
+\id{Population3} is reverse sorted, and that's the worst case scenario for \textsc{Insertion-Sort}, whose running complexity becomes $\Theta(n^2)$. Even then, the overhead of \textsc{Quicksort} in my implementation makes it run slower. Thresholds from 120 to 2000 seemed optimal according to the test results.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Threshold (k)} & 1 & 15 & 120 \\ \hline
+\textbf{Population4}   & 5652604914 & 1048525421 & 154203512 \\ \hline
+\hline
+\textbf{Threshold (k)} & 2000 & 3600 & 5700 \\ \hline
+\textbf{Population4}   & 129080835 & 200037999 & 357612562 \\ \hline
+\hline
+\textbf{Threshold (k)} & 7950 & 9900 & 13600 \\ \hline
+\textbf{Population4}   & 472727888 & 472957891 & 623253844 \\ \hline
+\end{tabular}
+\caption{Comparison of different thresholds on the hybrid Quicksort algorithm on \id{Population4}. Times are given in nanoseconds.}
+\label{table:pop4}
+\end{table}
+For \id{Population4} which holds randomly permuted data, the running time swiftly decreases with threshold until 2000 which seems to be the around optimal. After that, \textsc{Insertion-Sort} causes the time to increase, but it's still a lot faster than \textsc{Quicksort} due to the latter's overhead.

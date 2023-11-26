@@ -1,0 +1,30 @@
+\label{Recurrence}
+\section{Recurrence Relations for Different Strategies}
+\begin{itemize}
+    \item \textbf{Last Element}
+    \begin{itemize}
+        \item Best case scenario occurs when the vector is partitioned evenly at each recursion. This is possible when the input vector is randomized. The recurrence relation is $$T(n) = 2T(n/2) + \Theta(n)$$ for sorting equal partitions of the vector and $\Theta(n)$ for partitioning the vector.
+        \item Worst case scenario occurs when partitioning is extremely unbalanced, such as with choosing the last element as pivot in sorted inputs. The recurrence relation is $$T(n) = T(n-1) + \Theta(n)$$ for sorting a vector with only one fewer element than the previous one, and $\Theta(n)$ for partitioning the vector.
+    \end{itemize}
+    \item \textbf{Random Element and Median of Three Random Elements}
+    \begin{itemize}
+        \item Average case scenario occurs when the pivot choice in partitioning is randomized by either choosing a random element or choosing the median of three random elements. While median of three approach is safer in terms of creating more even partitions, both have the recurrence relation $$T(n) = 2T(n/2) + \Theta(n)$$
+    \end{itemize}
+\end{itemize}
+\section{Recurrence Relations for Hybrid Algorithm}
+For a given threshold $k$, the recurrence relation for a hybrid algorithm combining \textsc{Quicksort} and \textsc{Insertion-Sort} depends on the characteristics of the input. The recurrence relation for hybrid sorting algorithm is
+\[
+T(n)=
+\begin{cases}
+    2T(\frac{n}{2}) + \Theta(n) & \text{if } n > k \\
+    f(k)                        & \text{if } n \leq k
+\end{cases}
+\]
+where $f$ is the time complexity of \textsc{Insertion-Sort} which can take the values
+\[
+f(k)=
+\begin{cases}
+     \Theta(k)      & \text{for best case}\\
+     \Theta(k^2)    & \text{for worst and average cases}
+\end{cases}
+\]

@@ -1,0 +1,127 @@
+Following is a link to the GitHub repository of my project. It was made public only after submission deadline.
+
+\begin{center}
+    \href{https://github.com/baglayan/blg335e-hw1}{https://github.com/baglayan/blg335e-hw1}
+\end{center}
+\section{Project Explanation}
+This project aims to implement quicksort with different pivoting strategies and a hybrid sorting algorithm which combines quicksort and insertion sort to get better performance.
+
+\section{Usage Syntax}
+\begin{lstlisting}[language=bash]
+./QuickSort <DATASET-FILE-NAME>.csv <l|r|m> <THRESHOLD VALUE>
+            <OUTPUT-FILE-NAME>.csv [v]
+\end{lstlisting}
+
+\begin{itemize}
+    \item \texttt{<DATASET-FILE-NAME>.csv}: The name of the dataset file in CSV format.
+    \item \texttt{<l|r|m>}: The pivot strategy to use for QuickSort. 'l' for last element, 'r' for random, 'm' for median of three random elements.
+    \item \texttt{<THRESHOLD VALUE>}: The threshold value for hybrid sort. Elements below this threshold will be sorted using insertion sort.
+    \item \texttt{<OUTPUT-FILE-NAME>.csv}: The name of the output file to store the sorted dataset in CSV format.
+    \item \texttt{[v]}: Optional flag to enable verbose mode. Displays additional information during sorting.
+\end{itemize}
+
+\section{Code Structure}
+The project consists of
+\begin{itemize}
+    \item one code file named \id{Quicksort.cpp} (the only deliverable aside from this report),
+    \item four dataset files named \id{population1.csv}, \id{population2.csv}, \id{population3.csv}, \id{population4.csv} with structure \texttt{CityName;PopulationNumber},
+    \item two bash scripts \id{run.sh} and \id{test.sh} to test the code and log the runtimes of all inputs,
+    \item workflow files for GitHub Actions to automate testing at each code push, and
+    \item Dockerfile to build an appropriate container.
+\end{itemize}
+
+This project leans heavily on command line arguments, so I created an enumeration for command line arguments. Each item holds the position of appropriate argument since the running signature of the program is fixed and doesn't change. I also added helper functions in case the arguments were fed incorrectly.
+
+I created another enumeration for pivoting strategies. These two enumerations made the code more readable and easier to develop.
+
+The data files included two fields: city name and population. To sort these by population and keep the city name information while doing it, I created a struct \id{City} with a string field \id{name} and an integer field \id{population}.
+
+In the main function, I first handle the command lines arguments: their correctness and their values. Then I open the files (input and output) specified in the arguments.
+
+After reading the data file contents into a vector of \id{City}, I check the value of the threshold. I then sort the arrays by \textsc{Quicksort} or \textsc{Hybrid-Sort} accordingly.
+
+While sorting, if the verbose flag is raised, I print the pivot and the current vector at the end of each \textsc{Partition}.
+
+Once the sorting operations are complete, I print the time elapsed in nanoseconds and write the current vector into an output file whose name was specified by a command line argument. The sorting-related functions are detailed in subsection \ref{details-of-procs}.
+
+\section{Implementation of Quicksort with Different Pivoting Strategies}
+
+\subsection{Explanation of different pivoting strategies}
+\textbf{Last Element as Pivot}
+\begin{itemize}
+    \item In \textsc{Partition}, choose the last element of the array as pivot.
+    \item Partition the array such that elements lesser than the pivot are on the left and greater on the right.
+    \item Recursively apply \textsc{Quicksort} to the subarrays.
+\end{itemize}
+\textbf{Random Element as Pivot}
+\begin{itemize}
+    \item In \textsc{Randomized-Partition}, select a random element from the array and swap it with the last element.
+    \item In \textsc{Partition}, choose the new last element of the array as pivot.
+    \item The partitioning process is similar to the Last Element method.
+    \item Recursively apply \textsc{Quicksort} to the subarrays.
+    \item This method aims to normalize the running time over inputs of different characters.
+\end{itemize}
+\textbf{Median of Three}
+\begin{itemize}
+    \item In \textsc{Median-Partition}, choose three random elements from the array.
+    \item \textsc{Find-Median} of these three elements and swap it with the last element of the array.
+    \item \textsc{Partition} the array similar to the previous methods.
+    \item Recursively apply \textsc{Quicksort} to the subarrays.
+\end{itemize}
+
+\subsection{Details of implemented procedures}
+\label{details-of-procs}
+\noindent void \textsc{Swap-Elements}($\text{City \&}c1, \text{City \&}c2$)\\
+\begin{indent}
+    Takes two city object references and swaps their locations.
+\end{indent}
+\\
+\\
+\noindent int \textsc{Find-Median}$(\text{int }i, \text{int }j, \text{int }k)$\\
+\begin{indent}
+    Takes three integers \id{i}, \id{j} and \id{k} as input and returns the median by doing three comparisons.
+\end{indent}
+\\
+\\
+\noindent int \textsc{Partition}$(\text{vector<City> \&} array, \text{int } low, \text{int }high)$\\
+\begin{indent}
+    Takes a reference to a vector of City objects \id{array}, and two integers representing the starting \id{low} and ending \id{high} indices of the portion of the arrays that is to be partitioned. This function sorts the objects in the array based on their population attribute. It always chooses the last element of the given array as the pivot. Returns the index of the pivot element after it has been correctly positioned in the array.
+\end{indent}
+\\
+\\
+\noindent int \textsc{Randomized-Partition}$(\text{vector<City> \&} array, \text{int } low, \text{int }high)$\\
+\begin{indent}
+    Takes a reference to a vector of City objects \id{array}, and two integers representing the starting \id{low} and ending \id{high} indices of the portion of the arrays that is to be partitioned. Swaps the last element of the array with a random element of the array, and then invokes \textsc{Partition} with the modified array. Returns the result of the call to \textsc{Partition}.
+\end{indent}
+\\
+\noindent int \textsc{Median-Partition}$(\text{vector<City> \&} array, \text{int } low, \text{int }high)$\\
+\begin{indent}
+    Takes a reference to a vector of City objects \id{array}, and two integers representing the \id{low} and ending \id{high} indices of the portion of the arrays that is to be partitioned. Chooses three random elements from the array, invokes \textsc{Find-Median} to find the median of their populations, and then swaps that element with the last one. Invokes \textsc{Partition} with the modified array afterwards. Returns the result of the call to \textsc{Partition}.
+\end{indent}
+\\ 
+\\
+\noindent void \textsc{Naive-Quicksort}$(\text{vector<City> \&} array, \text{int } low, \text{int }high)$\\
+\begin{indent}
+\textsc{Quicksort} that has no regard to Strategy and always uses \textsc{Partition} with last element as pivot.
+\end{indent}
+\\
+\\
+\noindent void \textsc{Quicksort}$(\text{vector<City> \&} array, \text{int } low, \text{int }high, \text{int }strategy)$\\
+\begin{indent}
+Takes a reference to a vector of City objects \id{array}, and two integers representing the starting and ending representing the starting \id{low} and ending \id{high} indices of the array being sorted. Takes the index of pivot after calling (depending on \id{strategy}) \textsc{Partition}, \textsc{Randomized-Partition} or \textsc{Median-Partition} (which does the sorting part, recursion by recursion) and then recursively calls \textsc{Quicksort} (itself) for both the left and the right portions (relative to the pivot). After all recursions are complete, the vector that was initially given as argument is now sorted. 
+\end{indent}
+\section{Hybrid Implementation of Quicksort and Insertion Sort}
+
+\subsection{Explanation of the hybrid algorithm}
+\textsc{Hybrid-Sort} is implemented very similarly to the \textsc{Quicksort}, it also utilizes different pivoting strategies. The main difference is that once the size of the input vector is smaller than the threshold specified in the command line arguments, it sorts the input vector with \textsc{Insertion-Sort}.
+\subsection{Details of implemented procedures}
+\noindent void \textsc{Insertion-Sort}$(\text{vector<City> \&} array, \text{int } low, \text{int } high)$\\
+\begin{indent}
+    Takes a reference to a vector of City objects \id{array}, and two integers representing the starting \id{low} and ending \id{high} indices of the portion of the arrays that is to be sorted. It is necessary to implement \textsc{Insertion-Sort} this way because of how we utilize it in the \textsc{Hybrid-Sort} procedure. Sorts the array by implementing the insertion sort algorithm.
+\end{indent}
+\\
+\\
+\noindent void \textsc{Hybrid-Sort}$(\text{vector<City> \&} array, \text{int } low, \text{int }high, \text{int }threshold, \text{int }strategy)$\\
+\begin{indent}
+Takes a reference to a vector of City objects \id{array}, and two integers representing the starting \id{low} and ending \id{high} indices of the array being sorted. If the top index of the \textsc{Hybrid-Sort}ed array is greater than the threshold, takes the index of pivot by calling (depending on the pivoting \id{strategy}) \textsc{Partition}, \textsc{Randomized-Partition} or \textsc{Median-Partition} (which does the sorting part, recursion by recursion) and then recursively calls \textsc{Hybrid-Sort} (itself) for both the left and the right portions (relative to the pivot). At some point during recursions (or at the beginning depending on the nature of the initial input before any recursive calls), size of the input \id{array} inevitably becomes lesser than threshold. In this case, remaining recursions sort the vector with \textsc{Insertion-Sort}. After all recursions are complete, the vector that was initially given as argument is now sorted. 
+\end{indent}
