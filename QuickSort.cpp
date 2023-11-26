@@ -4,7 +4,7 @@
  *
  * Name: Meriç Bağlayan
  * Id  : 150190056
- * Date: 2023-11-24
+ * Date: 2023-11-26
  */
 
 #include <chrono>
@@ -108,6 +108,16 @@ int medianPartition(vector<City> &array, int low, int high);
 int partition(vector<City> &array, int low, int high);
 
 /**
+ * @brief Function to sort a vector<City> using naive QuickSort.
+ *      This function is not used in the program, it is only here for grading purposes.
+ *
+ * @param array The vector to sort.
+ * @param low The lower bound of the vector part.
+ * @param high The upper bound of the vector part.
+ */
+void naiveQuickSort(vector<City> &array, int low, int high);
+
+/**
  * @brief Function to sort a vector<City> using QuickSort.
  *
  * @param array The vector to sort.
@@ -139,7 +149,7 @@ void hybridSort(vector<City> &array, int low, int high, int threshold, int strat
  * @param logFile The log file to print to.
  * @param verbose The verbose mode flag.
  */
-void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose);
+void verboseLog(const vector<City> &array, int length, int pivot, ofstream &logFile, bool verbose);
 
 /**
  * @brief Function to display the time taken by QuickSort with the given pivot strategy and threshold value.
@@ -263,6 +273,8 @@ int main(int argc, const char **argv)
     string firstLine;
     getline(datasetFile, firstLine);
 
+    // I was getting weird characters at the beginning
+    // of the first line, so I remove them if they exist.
     if (!firstLine.empty() && firstLine[0] == '\xEF' && firstLine[1] == '\xBB' && firstLine[2] == '\xBF')
     {
         firstLine.erase(0, 3);
@@ -287,9 +299,16 @@ int main(int argc, const char **argv)
 
     auto start = chrono::high_resolution_clock::now();
 
+    // Could also have only hybrid sort since
+    // quicksort will run as long the threshold is 1.
+    // But this keeps things more readable, at the
+    // cost of longer code.
     switch (threshold)
     {
     case 1:
+        // For the size, I could also keep track of 
+        // the number of lines while reading the file,
+        // but this is easier.
         quickSort(cities, 0, cities.size() - 1, strategy);
         break;
     default:
@@ -403,6 +422,16 @@ int findMedian(int i, int j, int k)
         return i;
 }
 
+void naiveQuickSort(vector<City> &array, int low, int high)
+{
+    if (low < high)
+    {
+        int pivotIndex = partition(array, low, high);
+        naiveQuickSort(array, low, pivotIndex - 1);
+        naiveQuickSort(array, pivotIndex + 1, high);
+    }
+}
+
 void quickSort(vector<City> &array, int low, int high, int strategy)
 {
     if (low < high)
@@ -464,7 +493,6 @@ void hybridSort(vector<City> &array, int low, int high, int threshold, int strat
 void displayWrongFileExtensionMessage()
 {
     cerr << "Files for dataset and output should have the extension '.csv'." << endl;
-    return;
 }
 
 void displayWrongStrategyMessage()
@@ -497,7 +525,6 @@ void displayWrongUsageMessage(int argc, const char **argv)
             }
         }
     }
-    return;
 }
 
 void displayTimeElapsed(char strategy, int threshold, auto time)
@@ -506,7 +533,7 @@ void displayTimeElapsed(char strategy, int threshold, auto time)
          << time << " ns." << endl;
 }
 
-void verboseLog(vector<City> array, int length, int pivot, ofstream &logFile, bool verbose)
+void verboseLog(const vector<City> &array, int length, int pivot, ofstream &logFile, bool verbose)
 {
     if (verbose)
     {
@@ -536,7 +563,6 @@ void claHelp()
     cout << "  <THRESHOLD VALUE>: The threshold value for hybrid sort. Elements below this threshold will be sorted using insertion sort." << endl;
     cout << "  <OUTPUT-FILE-NAME>.csv: The name of the output file to store the sorted dataset in CSV format." << endl;
     cout << "  [v]: Optional flag to enable verbose mode. Displays additional information during sorting." << endl;
-    return;
 }
 
 void claVersion()
@@ -546,24 +572,5 @@ void claVersion()
     cout << "QuickSort" << endl;
     cout << "Submitted Version" << endl;
     cout << "==============================================" << endl;
-
-    cout << "                      ,////," << endl;
-    cout << "                      /// 6|" << endl;
-    cout << "                      //  _|" << endl;
-    cout << "                     _/_,-'" << endl;
-    cout << "                _.-/'/   \\   ,/;," << endl;
-    cout << "             ,-' /'  \\_   \\ / _/" << endl;
-    cout << "             `\\ /     _/\\  ` /" << endl;
-    cout << "               |     /,  `\\_/" << endl;
-    cout << "               |     \\'" << endl;
-    cout << "   /\\_        /`      /\\" << endl;
-    cout << " /' /_``--.__/\\  `,. /  \\" << endl;
-    cout << "|_/`  `-._     `\\/  `\\   `." << endl;
-    cout << "          `-.__/'     `\\   |" << endl;
-    cout << "                        `\\  \\" << endl;
-    cout << "                          `\\ \\" << endl;
-    cout << "                            \\_\\__" << endl;
-    cout << "                             \\___)" << endl;
-    return;
 }
 #pragma endregion
