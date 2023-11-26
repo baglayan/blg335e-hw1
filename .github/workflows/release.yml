@@ -17,7 +17,7 @@ jobs:
       run: sudo apt-get install texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
 
     - name: Compile LaTeX document
-      run: pdflatex -interaction=nonstopmode -halt-on-error Main.tex
+      run: pdflatex -interaction=nonstopmode -halt-on-error report/Main.tex
 
     - name: Rename PDF
       run: mv Main.pdf ${{ secrets.STUDENT_NUMBER }}_report.pdf
