@@ -1,1 +1,2 @@
-*.tex linguist-detectable=false
+report/*.tex linguist-detectable=false
+report/*.sty linguist-detectable=false
